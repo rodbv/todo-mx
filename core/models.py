@@ -10,7 +10,6 @@ class UserProfile(AbstractUser):
 
 # NEW
 class Todo(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
     title = models.CharField(max_length=255)
     is_completed = models.BooleanField(default=False)
     user = models.ForeignKey(
@@ -18,6 +17,8 @@ class Todo(models.Model):
         related_name="todos",
         on_delete=models.CASCADE,
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
