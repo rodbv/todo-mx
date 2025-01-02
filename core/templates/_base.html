@@ -1,0 +1,24 @@
+<!-- core/templates/_base.html -->
+ 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.1/daisyui.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4" ></script> <!-- NEW -->
+    {% block header %}
+    {% endblock %}
+  </head>
+  <body
+  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="h-screen bg-gradient-to-b from-blue-50 to-blue-300">
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>
+{% block js %}
+{% endblock %}

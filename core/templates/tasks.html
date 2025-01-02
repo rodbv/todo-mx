@@ -1,0 +1,27 @@
+<!-- core/templates/tasks.html -->
+
+{% extends "_base.html" %}
+{% load partials %}
+
+{% block content %}
+<div class="flex flex-col items-center mx-10 md:mx-20">
+  <h1 class="text-2xl font-bold m-4">{{ fullname }}'s Tasks</h1>
+  <div class="w-full max-w-2xl">
+    <ul class="list bg-base-100 rounded-box shadow-md">
+      {% for todo in todos %}
+      {% partialdef todo-item-partial inline %}
+      <li class="list-row">
+        <input type="checkbox"
+          hx-put="{% url 'toggle_todo' todo.id %}"
+          hx-swap="outerHTML" 
+          hx-target="closest li" 
+          {% if todo.is_completed %}checked{% endif %} class="checkbox checkbox-lg checkbox-info mr-4" />
+          
+            <span class="flex-1 text-lg {% if todo.is_completed %}text-gray-500{% endif %}">{{ todo.title }}</span>
+      </li>
+      {% endpartialdef %} 
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
