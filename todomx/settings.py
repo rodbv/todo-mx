@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "core",
-    "template_partials",  # <-- NEW
+    "template_partials",
 ]
 
 AUTH_USER_MODEL = "core.UserProfile"

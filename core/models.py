@@ -8,7 +8,6 @@ class UserProfile(AbstractUser):
     pass
 
 
-# NEW
 class Todo(models.Model):
     title = models.CharField(max_length=255)
     is_completed = models.BooleanField(default=False)

@@ -11,7 +11,6 @@ class UserProfileAdmin(UserAdmin):
     list_display = ["email", "username"]
 
 
-# NEW
 @admin.register(Todo)
 class TodoAdmin(admin.ModelAdmin):
     model = Todo
