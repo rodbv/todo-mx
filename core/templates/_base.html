@@ -10,10 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.1/daisyui.css" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4" ></script> <!-- NEW -->
     {% block header %}
     {% endblock %}
   </head>
-  <body class="h-screen bg-gradient-to-b from-blue-50 to-blue-300">
+  <body
+  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="h-screen bg-gradient-to-b from-blue-50 to-blue-300">
     {% block content %}
     {% endblock %}
   </body>

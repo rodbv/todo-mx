@@ -3,6 +3,7 @@
 from django.shortcuts import redirect, render
 from .models import UserProfile, Todo
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods  # <-- NEW
 
 
 def index(request):
@@ -21,3 +22,14 @@ def tasks(request):
     }
 
     return render(request, "tasks.html", context)
+
+
+# NEW
+@login_required
+@require_http_methods(["PUT"])
+def toggle_todo(request, task_id):
+    todo = request.user.todos.get(id=task_id)
+    todo.is_completed = not todo.is_completed
+    todo.save()
+
+    return render(request, "tasks.html#todo-item-partial", {"todo": todo})
