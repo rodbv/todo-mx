@@ -14,8 +14,21 @@ def get_user_todos(user: UserProfile) -> list[Todo]:
     return user.todos.all().order_by("created_at")
 
 
+def _create_todo(request):
+    title = request.POST.get("title")
+    if not title:
+        raise ValueError("Title is required")
+
+    todo = Todo.objects.create(title=title, user=request.user)
+    return render(request, "tasks.html#todo-item-partial", {"todo": todo})
+
+
+@require_http_methods(["GET", "POST"])
 @login_required
 def tasks(request):
+    if request.method == "POST":
+        return _create_todo(request)
+
     context = {
         "todos": get_user_todos(request.user),
         "fullname": request.user.get_full_name() or request.user.username,

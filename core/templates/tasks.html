@@ -6,17 +6,30 @@
 {% block content %}
 <div class="flex flex-col items-center mx-10 md:mx-20">
   <h1 class="text-2xl font-bold m-4">{{ fullname }}'s Tasks</h1>
+  
   <div class="w-full max-w-2xl">
-    <ul class="list bg-base-100 rounded-box shadow-md">
+    <div class="mb-4">
+      <form hx-post="{% url 'tasks' %}" 
+        hx-swap="beforeend" 
+        hx-target="#todo-items" 
+        hx-on::after-request="this.reset();"
+        hx-disabled-elt="#submit"
+        class="flex items-center space-x-2">
+        <input type="text" required name="title" placeholder="Add a new todo" class="input input-bordered flex-1 text-lg" />
+        <button id="submit" type="submit" class="btn btn-primary btn-info text-lg w-24">Add</button>
+      </form>
+    </div>
+  
+    <ul id="todo-items" class="list bg-base-100 rounded-box shadow-md">
       {% for todo in todos %}
       {% partialdef todo-item-partial inline %}
       <li class="list-row">
         <input type="checkbox"
           hx-put="{% url 'toggle_todo' todo.id %}"
-          hx-swap="outerHTML" 
+          hx-swap="outerHTML"
           hx-target="closest li" 
+          hx-on:click="this.setAttribute('disabled', 'disabled')"
           {% if todo.is_completed %}checked{% endif %} class="checkbox checkbox-lg checkbox-info mr-4" />
-          
             <span class="flex-1 text-lg {% if todo.is_completed %}text-gray-500{% endif %}">{{ todo.title }}</span>
       </li>
       {% endpartialdef %} 
