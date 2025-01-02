@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="flex flex-col items-center mx-10 md:mx-20">
+  <h1 class="text-2xl font-bold m-4">{{ fullname }}'s Tasks</h1>
+  <div class="w-full max-w-2xl">
+    <ul class="bg-base-100 rounded-lg shadow-md divide-y divide-gray-200">
+      {% for todo in todos %}
+      <li class="flex items-center p-4">
+        <input type="checkbox" {% if todo.is_completed %}checked{% endif %} class="checkbox checkbox-lg checkbox-info mr-4" />
+        <p class="flex-1 {% if todo.is_completed %}text-gray-500{% endif %}">{{ todo.title }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
