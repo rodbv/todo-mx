@@ -7,7 +7,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("tasks/", views.tasks, name="tasks"),
     path(
-        "tasks/<int:task_id>/toggle/",  # <-- CHANGED
+        "tasks/<int:task_id>/toggle/",
         views.toggle_todo,
         name="toggle_todo",
     ),

@@ -24,7 +24,6 @@ def test_get_tasks_returns_tasks_template_and_todo_items_of_the_user(
     assert all(todo.user == user for todo in response.context["todos"])
 
 
-# NEW
 @pytest.mark.django_db
 def test_create_todo_view_stores_todo_and_returns_todo_on_partial(client, make_user):
     user = make_user()
