@@ -11,4 +11,9 @@ urlpatterns = [
         views.toggle_todo,
         name="toggle_todo",
     ),
+    path(
+        "tasks/<int:task_id>/",
+        views.task_details,
+        name="task_details",
+    ),
 ]
