@@ -8,6 +8,9 @@ This repository is associated with a series of articles on [dev.to](https://dev.
 2. [Creating a To-Do app with Django and HTMX - Part 2: Adding the Todo model](https://dev.to/rodbv/creating-a-to-do-app-with-django-and-htmx-part-2-adding-the-todo-model-with-tdd-1oa2)
 3. [Creating a To-Do app with Django and HTMX - Part 3: Creating the frontend and adding HTMX
 ](https://dev.to/rodbv/creating-a-to-do-app-with-django-and-htmx-part-3-adding-the-frontend-with-daisyui-324n)
+4. [Creating a To-Do app with Django and HTMX, part 4: adding new Todos](https://dev.to/rodbv/creating-a-to-do-app-with-django-and-htmx-part-4-adding-new-todos-23f6)
+5. [Creating a To-Do app with HTMX and Django, part 5: Testing the views](https://dev.to/rodbv/creating-a-to-do-app-with-htmx-and-django-part-5-testing-the-views-2iml)
+6. [Creating a To-Do app with Django and HTMX, part 6: implementing Delete with tests](https://dev.to/rodbv/creating-a-to-do-app-with-django-and-htmx-part-6-implementing-delete-with-tdd-471l)
 
 ## Technologies Used
 
