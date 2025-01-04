@@ -1,5 +1,6 @@
 # core/views.py
 
+from http import HTTPStatus
 from django.shortcuts import redirect, render
 from .models import UserProfile, Todo
 from django.contrib.auth.decorators import login_required
@@ -20,7 +21,12 @@ def _create_todo(request):
         raise ValueError("Title is required")
 
     todo = Todo.objects.create(title=title, user=request.user)
-    return render(request, "tasks.html#todo-item-partial", {"todo": todo})
+    return render(
+        request,
+        "tasks.html#todo-item-partial",
+        {"todo": todo},
+        status=HTTPStatus.CREATED,
+    )
 
 
 @require_http_methods(["GET", "POST"])
