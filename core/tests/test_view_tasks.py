@@ -61,3 +61,17 @@ def test_put_todo_toggles_todo_status_and_returns_todo_on_partial(
 
     assert "New Todo" in content
     assert '<li class="list-row">' in content
+
+
+@pytest.mark.django_db
+def test_delete_task(client, make_todo, make_user):
+    user = make_user()
+    client.force_login(user)
+
+    todo = make_todo(title="New Todo", user=user)
+
+    response = client.delete(reverse("task_details", args=[todo.id]))
+
+    assert response.status_code == HTTPStatus.NO_CONTENT
+    assert response["HX-Trigger"] == "todo-deleted"
+    assert not user.todos.filter(title="New Todo").exists()
