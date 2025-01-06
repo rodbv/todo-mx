@@ -4,7 +4,11 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["django>=5.1.4", "django-template-partials>=24.4"]
+dependencies = [
+    "django>=5.1.4",
+    "django-extensions>=3.2.3",
+    "django-template-partials>=24.4",
+]
 
 [dependency-groups]
 dev = [
