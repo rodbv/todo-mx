@@ -4,6 +4,7 @@ from http import HTTPStatus
 import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
+from core.views import PAGE_SIZE
 
 
 @pytest.mark.django_db
@@ -34,10 +35,11 @@ def test_create_todo_view_stores_todo_and_returns_todo_on_partial(client, make_u
     assert user.todos.filter(title="New Todo").exists()
     assert response.status_code == HTTPStatus.CREATED
 
-    content = response.content.decode()
+    content = response.content.decode().strip()
 
     assert "New Todo" in content
-    assert '<li class="list-row">' in content
+    assert content.startswith("<li")
+    assert content.endswith("</li>")
 
 
 @pytest.mark.parametrize("is_completed", [True, False])
@@ -57,10 +59,11 @@ def test_put_todo_toggles_todo_status_and_returns_todo_on_partial(
     assert response.status_code == HTTPStatus.OK
     assert todo.is_completed is not is_completed
 
-    content = response.content.decode()
+    content = response.content.decode().strip()
 
     assert "New Todo" in content
-    assert '<li class="list-row">' in content
+    assert content.startswith("<li")
+    assert content.endswith("</li>")
 
 
 @pytest.mark.django_db
@@ -75,3 +78,29 @@ def test_delete_task(client, make_todo, make_user):
     assert response.status_code == HTTPStatus.NO_CONTENT
     assert response["HX-Trigger"] == "todo-deleted"
     assert not user.todos.filter(title="New Todo").exists()
+
+
+@pytest.mark.django_db
+def test_tasks_pagination(client, make_todo, make_user):
+    user = make_user()
+    client.force_login(user)
+
+    # create 2 pages of data
+    for i in range(PAGE_SIZE + 3):
+        make_todo(title=f"Todo #{i}", user=user)
+
+    response = client.get(reverse("tasks"))
+
+    context = response.context
+    assert context["next_page_number"] == 2
+    assert len(context["todos"]) == PAGE_SIZE
+
+    # add header to ensure this is processed as an HTMX request
+    response = client.get(reverse("tasks") + "?page=2", HTTP_HX_Request="true")
+
+    content = response.content.decode().strip()
+    assert content.startswith("<li")
+    assert content.endswith("</li>")
+
+    assert ">Todo #22<" not in content
+    assert ">Todo #1<" in content

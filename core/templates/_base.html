@@ -1,7 +1,7 @@
 <!-- core/templates/_base.html -->
  
 <!DOCTYPE html>
-<html>
+<html lang="en" class="h-full bg-zinc-100">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -14,8 +14,8 @@
     {% block header %}
     {% endblock %}
   </head>
-  <body
-  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="h-screen bg-gradient-to-b from-blue-50 to-blue-300">
+  <body class="h-full bg-transparent"
+  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     {% block content %}
     {% endblock %}
   </body>
