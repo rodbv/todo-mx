@@ -1,8 +1,11 @@
 <!-- core/templates/_base.html -->
  
 <!DOCTYPE html>
+
 <html lang="en" class="h-full bg-zinc-100">
   <head>
+    {% load static %}
+
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
@@ -10,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.1/daisyui.css" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-    <script src="https://unpkg.com/htmx.org@2.0.4" ></script>
+    <script src="{% static '/js/htmx-2.0.4.min.js' %}" ></script>
     {% block header %}
     {% endblock %}
   </head>
