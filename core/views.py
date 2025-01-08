@@ -73,11 +73,39 @@ def toggle_todo(request, task_id):
 
 
 @login_required
-@require_http_methods(["DELETE"])
+@require_http_methods(["DELETE", "POST", "GET"])
 def task_details(request, task_id):
     todo = request.user.todos.get(id=task_id)
-    todo.delete()
 
-    response = HttpResponse(status=HTTPStatus.NO_CONTENT)
-    response["HX-Trigger"] = "todo-deleted"
-    return response
+    if request.method == "DELETE":
+        todo.delete()
+        response = HttpResponse(status=HTTPStatus.NO_CONTENT)
+        response["HX-Trigger"] = "todo-deleted"
+        return response
+
+    if request.method == "POST":
+        title = request.POST.get("title")
+        if not title:
+            raise ValueError("Title is required")
+
+        todo.title = title
+        todo.is_completed = bool(request.POST.get("is_completed"))
+        todo.save()
+
+    # GET will just return the todo details
+    return render(
+        request,
+        "tasks.html#todo-items-partial",
+        {"todos": [todo]},
+    )
+
+
+@login_required
+@require_http_methods(["GET"])
+def edit_task(request, task_id):
+    todo = request.user.todos.get(id=task_id)
+    return render(
+        request,
+        "tasks.html#todo-item-edit",
+        {"todo": todo},
+    )

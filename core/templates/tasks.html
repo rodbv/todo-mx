@@ -1,6 +1,18 @@
 <!-- core/templates/tasks.html -->
 
-{% extends "_base.html" %} {% load partials %} {% block content %}
+{% extends "_base.html" %} 
+
+{% load partials %} 
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static '/css/styles.css' %}" />
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block content %}
 <div class="flex flex-col items-center mx-10 md:mx-20">
   <h1 class="text-2xl font-bold m-4">{{ fullname }}'s Tasks</h1>
 
@@ -31,35 +43,68 @@
       </form>
     </div>
 
-    <ul id="todo-items" class="list bg-base-100 rounded-box shadow-md" hx-indicator=".indicator">
-      {% partialdef todo-items-partial inline %}
-        {% for todo in todos %} 
-          <li class="list-row">
-            <input
-              type="checkbox"
-              hx-put="{% url 'toggle_todo' todo.id %}"
-              hx-swap="outerHTML"
-              hx-target="closest li"
-              hx-on:click="this.setAttribute('disabled', 'disabled')"
-              {% if todo.is_completed %} checked {% endif %}
-              class="checkbox checkbox-lg checkbox-info mr-4"
-            />
-            <span
-              class="flex-1 text-lg {% if todo.is_completed %}text-gray-500{% endif %}"
-              >{{ todo.title }}</span
-            >
-            <button hx-delete="{% url 'task_details' todo.id %}" 
-            class="btn btn-circle btn-sm btn-error btn-outline"
-            hx-on:todo-deleted="this.closest('li').remove()"
-            hx-confirm="Delete this item?">x</button>
-          </li>
-        {% endfor %}
-        {% if next_page_number %}
-          <p id="loading" hx-get="{% url 'tasks' %}?page={{next_page_number}}" hx-trigger="revealed" hx-swap="outerHTML" class="mx-auto my-4 loading loading-dots text-center"></p>
-        {% endif %}
-        {% endpartialdef %} 
+    <ul id="todo-items" class="w-full list bg-base-100 rounded-box shadow-md" hx-indicator=".indicator">
+{% partialdef todo-items-partial inline %}
+  {% for todo in todos %} 
+    <li class="list-row w-full">
+      <input type="checkbox" class="checkbox checkbox-lg checkbox-info mr-4"
+          hx-put="{% url 'toggle_todo' todo.id %}"
+          hx-swap="outerHTML"
+          hx-target="closest li"
+          hx-on:click="this.setAttribute('disabled', 'disabled')"
+          {% if todo.is_completed %} checked {% endif %}
+        />
+
+      <span
+        class="flex-1 text-lg {% if todo.is_completed %}text-gray-500{% endif %}"
+        >{{ todo.title }}</span
+      >
+        
+      <!-- THIS BUTTON IS NEW -->
+      <button hx-get="{% url 'edit_task' todo.id %}" 
+        class="btn btn-circle btn-sm btn-info btn-outline"
+        hx-swap="innerHTML"
+        hx-target="closest li"
+      ><span class="icon-edit"></span></button>
+      
+      <button hx-delete="{% url 'task_details' todo.id %}" 
+        class="btn btn-circle btn-sm btn-error btn-outline"
+        hx-on:todo-deleted="this.closest('li').remove()"
+        hx-confirm="Delete this item?">
+      <span class="icon-delete"></span>
+      </button>
+    </li>
+  {% endfor %}
+  {% if next_page_number %}
+    <p id="loading" hx-get="{% url 'tasks' %}?page={{next_page_number}}" hx-trigger="revealed" hx-swap="outerHTML" class="mx-auto my-4 loading loading-dots text-center"></p>
+  {% endif %}
+{% endpartialdef %} 
     </ul>
   </div>
 </div>
 
 {% endblock %}
+
+
+{% partialdef todo-item-edit %}
+<input type="checkbox" form="edit-form" name="is_completed" class="checkbox checkbox-lg checkbox-info mr-2"
+  {% if todo.is_completed %} checked {% endif %}/>
+
+<div class="flex space-x-4">
+
+  <form id="edit-form" hx-post="{% url 'task_details' todo.id %}" hx-swap="outerHTML" hx-target="closest li" class="w-full flex items-center space-x-2">
+    <input type="text"  name="title" required class="input input-bordered flex-1 text-lg" value="{{ todo.title }}" autofocus />
+  </form>
+
+  <button form="edit-form" class="btn btn-circle btn-sm btn-success btn-outline" 
+    type="submit"
+  ><span class="icon-check"></button>
+
+  <button class="btn btn-circle btn-sm btn-error btn-outline" 
+    hx-get="{% url 'task_details' todo.id %}" 
+    hx-swap="outerHTML" 
+    hx-target="closest li"
+  ><span class="icon-back"></span></button>
+  
+</div>
+{% endpartialdef %}
