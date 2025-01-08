@@ -1,6 +1,6 @@
 # TodoMX
 
-This repository is associated with a series of articles on [dev.to](https://dev.to/rodbv/creating-a-to-do-app-with-django-and-htmx-part-1-583p) documenting my learning journey with [HTMX](https://htmx.org/) and [Django](https://www.djangoproject.com/). The series covers the creation of a to-do application, using [uv](https://docs.astral.sh/uv/), [DaisyUI](https://daisyui.com/) and [Pytest](https://docs.pytest.org/en/stable/).
+This repository is associated with a series of articles on [dev.to](https://dev.to/rodbv/series/30050) documenting my learning journey with [HTMX](https://htmx.org/) and [Django](https://www.djangoproject.com/). The series covers the creation of a to-do application, using [uv](https://docs.astral.sh/uv/), [DaisyUI](https://daisyui.com/) and [Pytest](https://docs.pytest.org/en/stable/).
 
 ## Articles in the Series
 
