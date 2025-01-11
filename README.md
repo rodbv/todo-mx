@@ -1,4 +1,7 @@
+
 # TodoMX
+
+[![Django CI](https://github.com/rodbv/todo-mx/actions/workflows/django.yml/badge.svg)](https://github.com/rodbv/todo-mx/actions/workflows/django.yml)
 
 This repository is associated with a series of articles on [dev.to](https://dev.to/rodbv/series/30050) documenting my learning journey with [HTMX](https://htmx.org/) and [Django](https://www.djangoproject.com/). The series covers the creation of a to-do application, using [uv](https://docs.astral.sh/uv/), [DaisyUI](https://daisyui.com/) and [Pytest](https://docs.pytest.org/en/stable/).
 
