@@ -2,7 +2,7 @@ run:
     uv run python manage.py runserver_plus
 
 test:
-    uv run pytest
+    uv run ptw .
 
 migrate:
     uv run python manage.py migrate

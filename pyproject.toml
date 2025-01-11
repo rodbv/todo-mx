@@ -30,7 +30,7 @@ python_files = ["test_*.py", "*_test.py", "testing/python/*.py"]
 
 [tool.pytest-watcher]
 now = true
-clear = true
+clear = false
 delay = 0.2
 runner = "pytest"
 runner_args = []
