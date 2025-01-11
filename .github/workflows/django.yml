@@ -1,0 +1,38 @@
+name: Django CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version:
+          - "3.12"
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.13"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install the project
+        run: uv sync --all-extras --dev
+
+      - name: Run tests
+        run: uv run pytest
