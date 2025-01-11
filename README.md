@@ -30,11 +30,38 @@ To run the tests, use the following command:
 uv run pytest
 ```
 
+## Using Justfile Commands
+
+This project uses `just` to manage common tasks. To install `just`, follow the instructions on their [official website](https://just.systems/).
+
+Here are some of the available commands:
+
+- **Run the development server**:
+  ```sh
+  just run
+  ```
+
+- **Run tests**:
+  ```sh
+  just test
+  ```
+
+- **Apply database migrations**:
+  ```sh
+  just migrate
+  ```
+
+- **Create a superuser**:
+  ```sh
+  just csu
+  ```
+
+- **Make database migrations**:
+  ```sh
+  just makemigrations
+  ```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License.
 
