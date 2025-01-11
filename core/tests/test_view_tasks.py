@@ -104,3 +104,72 @@ def test_tasks_pagination(client, make_todo, make_user):
 
     assert ">Todo #22<" not in content
     assert ">Todo #1<" in content
+
+
+# This is the ideal type of test but it doesn't work
+# due to issue #54 in django-template-partials
+
+# pytest.mark.django_db
+# def test_search_filtering(client, make_todo, make_user):
+#     user = make_user()
+#     client.force_login(user)
+
+#     make_todo(title="Todo 1", user=user)
+#     make_todo(title="Another Todo", user=user)
+#     make_todo(title="Something else", user=user)
+
+#     response = client.post(reverse("search"), {"query": "Todo"})
+#     context = response.context
+
+#     assert len(context["todos"]) == 2
+#     assert any(todo.title == "Todo 1" for todo in context["todos"])
+#     assert any(todo.title == "Another Todo" for todo in context["todos"])
+
+
+@pytest.mark.django_db
+def test_search_filtering(client, make_todo, make_user):
+    user = make_user()
+    client.force_login(user)
+
+    make_todo(title="Todo 1", user=user)
+    make_todo(title="Another Todo", user=user)
+    make_todo(title="Something else", user=user)
+
+    response = client.post(reverse("search"), {"query": "Todo"})
+    content = response.content.decode()
+
+    assert "Todo 1" in content
+    assert "Another Todo" in content
+
+    assert "Something else" not in content
+
+
+@pytest.mark.django_db
+def test_search_empty_query_redirects_to_all_tasks(client, make_todo, make_user):
+    user = make_user()
+    client.force_login(user)
+
+    make_todo(title="Todo 1", user=user)
+    make_todo(title="Another Todo", user=user)
+    make_todo(title="Something else", user=user)
+
+    response = client.post(reverse("search"), {"query": ""})
+    assert response.status_code == HTTPStatus.FOUND  # redirect
+    assert response.url == reverse("tasks")
+
+
+@pytest.mark.django_db
+def test_search_zero_matches_returns_empty_list(client, make_todo, make_user):
+    user = make_user()
+    client.force_login(user)
+
+    make_todo(title="Todo 1", user=user)
+    make_todo(title="Another Todo", user=user)
+    make_todo(title="Something else", user=user)
+
+    response = client.post(reverse("search"), {"query": "Nonexistent"})
+    content = response.content.decode()
+
+    assert not any(
+        todo in content for todo in ["Todo 1", "Another Todo", "Something else"]
+    )

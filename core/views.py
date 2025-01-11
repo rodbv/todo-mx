@@ -109,3 +109,21 @@ def edit_task(request, task_id):
         "tasks.html#todo-item-edit",
         {"todo": todo},
     )
+
+
+@login_required
+@require_http_methods(["POST"])
+def search(request):
+    query = request.POST.get("query")
+
+    if not query:
+        return redirect("tasks")
+
+    results = request.user.todos.filter(title__icontains=query).order_by("-created_at")
+
+    return render(
+        request,
+        "tasks.html#todo-items-partial",
+        {"todos": results},
+        status=HTTPStatus.OK,
+    )

@@ -18,6 +18,14 @@
 
   <div class="w-full max-w-2xl">
     <div class="mb-4">
+      <div class="flex justify-center">
+        <label class="rounded-full input my-4 w-1/2">
+          <span class="icon-search text-gray-500"></span> 
+          <input type="search" name="query" class="grow text-md" placeholder="Type to search..." hx-post="{% url 'search' %}"
+          hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
+          hx-target="#todo-items" />
+        </label>
+      </div>
       <form
         hx-post="{% url 'tasks' %}"
         hx-swap="afterbegin"
